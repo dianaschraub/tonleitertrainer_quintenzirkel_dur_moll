@@ -5,279 +5,249 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tonleitertrainer</title>
 <style>
-  /* Keine externen Schriftarten mehr – nutzt zuverlässige Systemschriften, damit alles auch ganz ohne Internetverbindung exakt gleich aussieht */
+/* Keine externen Schriftarten mehr – nutzt zuverlässige Systemschriften, damit alles auch ganz ohne Internetverbindung exakt gleich aussieht */
+:root {
+  --bg: #0C0D13;
+  --bg-glow: #17181F;
+  --card: #16171F;
+  --card-2: #1D1E28;
+  --ink: #F3EFE4;
+  --muted: #8C8D9B;
+  --gold: #D8B978;
+  --gold-deep: #B8934A;
+  --gold-soft: rgba(216,185,120,0.18);
+  --staff: rgba(243,239,228,0.16);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100vh; }
+body {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(216,185,120,0.10), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(216,185,120,0.06), transparent 45%),
+    linear-gradient(160deg, var(--bg), var(--bg-glow));
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+.wrap { width: 100%; max-width: 460px; }
 
-  :root {
-    --bg: #0C0D13;
-    --bg-glow: #17181F;
-    --card: #16171F;
-    --card-2: #1D1E28;
-    --ink: #F3EFE4;
-    --muted: #8C8D9B;
-    --gold: #D8B978;
-    --gold-deep: #B8934A;
-    --gold-soft: rgba(216,185,120,0.18);
-    --staff: rgba(243,239,228,0.16);
-  }
+/* ---- Hero: arched keyboard with trailing rainbow notes ---- */
+.hero {
+  position: relative;
+  height: 118px;
+  margin-bottom: 6px;
+}
+.trail {
+  position: absolute;
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
+  pointer-events: none;
+  user-select: none;
+  text-shadow: 0 0 10px currentColor;
+  opacity: 0.9;
+  z-index: 5;
+}
+.keyboard-arch {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 60px;
+  display: flex;
+  filter: drop-shadow(0 10px 16px rgba(0,0,0,0.55));
+}
+.wkey {
+  position: relative;
+  flex: 0 0 calc(100% / 14);
+  height: 52px;
+  background: linear-gradient(180deg, #FBF8F1, #E9E2CF);
+  border: 1px solid rgba(0,0,0,0.25);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-sizing: border-box;
+  transform-origin: bottom center;
+}
+.wkey:first-child { border-radius: 3px 0 4px 4px; }
+.wkey:last-child { border-radius: 0 3px 4px 3px; }
+.bkey {
+  position: absolute;
+  top: 0;
+  width: 4.4%;
+  height: 33px;
+  background: linear-gradient(180deg, #2B2C34, #101116);
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  transform-origin: bottom center;
+  z-index: 2;
+}
 
-  * { box-sizing: border-box; }
+/* ---- Title pill ---- */
+header { text-align: center; margin-bottom: 26px; }
+.title-pill {
+  position: relative;
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
+  font-weight: 600;
+  font-size: clamp(17px, 2.5vw, 22px);
+  color: var(--gold);
+  background:
+    linear-gradient(180deg, var(--card-2), var(--card)) padding-box,
+    linear-gradient(100deg, #D8B978, #D89E8A 50%, #8FB6C9) border-box;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 15px 32px;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  letter-spacing: -0.005em;
+  box-shadow: 0 14px 26px -14px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.title-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -12px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08);
+}
 
-  html, body { margin: 0; min-height: 100vh; }
-
-  body {
-    background:
-      radial-gradient(circle at 12% 8%, rgba(216,185,120,0.10), transparent 40%),
-      radial-gradient(circle at 88% 92%, rgba(216,185,120,0.06), transparent 45%),
-      linear-gradient(160deg, var(--bg), var(--bg-glow));
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    color: var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 16px;
-  }
-
-  .wrap { width: 100%; max-width: 460px; }
-
-  /* ---- Hero: arched keyboard with trailing rainbow notes ---- */
-  .hero {
-    position: relative;
-    height: 118px;
-    margin-bottom: 6px;
-  }
-
-  .trail {
-    position: absolute;
-    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
-    pointer-events: none;
-    user-select: none;
-    text-shadow: 0 0 10px currentColor;
-    opacity: 0.9;
-    z-index: 5;
-  }
-
-  .keyboard-arch {
-    position: absolute;
-    left: 50%;
-    bottom: 4px;
-    transform: translateX(-50%);
-    width: 340px;
-    height: 60px;
-    display: flex;
-    filter: drop-shadow(0 10px 16px rgba(0,0,0,0.55));
-  }
-
-  .wkey {
-    position: relative;
-    flex: 0 0 calc(100% / 14);
-    height: 52px;
-    background: linear-gradient(180deg, #FBF8F1, #E9E2CF);
-    border: 1px solid rgba(0,0,0,0.25);
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    box-sizing: border-box;
-    transform-origin: bottom center;
-  }
-
-  .wkey:first-child { border-radius: 3px 0 4px 4px; }
-  .wkey:last-child { border-radius: 0 3px 4px 3px; }
-
-  .bkey {
-    position: absolute;
-    top: 0;
-    width: 4.4%;
-    height: 33px;
-    background: linear-gradient(180deg, #2B2C34, #101116);
-    border-radius: 0 0 3px 3px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    transform-origin: bottom center;
-    z-index: 2;
-  }
-
-  /* ---- Title pill ---- */
-  header { text-align: center; margin-bottom: 26px; }
-
-  .title-pill {
-    position: relative;
-    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
-    font-weight: 600;
-    font-size: clamp(17px, 2.5vw, 22px);
-    color: var(--gold);
-    background:
-      linear-gradient(180deg, var(--card-2), var(--card)) padding-box,
-      linear-gradient(100deg, #D8B978, #D89E8A 50%, #8FB6C9) border-box;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    padding: 15px 32px;
-    cursor: default;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    letter-spacing: -0.005em;
-    box-shadow: 0 14px 26px -14px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .title-pill:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 30px -12px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08);
-  }
-
-  /* ---- Stage card ---- */
-  .panel { position: relative; }
-  .panel.editor { display: none; }
-
-  .panel.stage {
-    background: linear-gradient(165deg, var(--card-2), var(--card) 60%);
-    border: 1px solid rgba(216,185,120,0.16);
-    border-radius: 22px;
-    padding: 28px 24px 24px;
-    box-shadow: 0 30px 60px -32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .clef-watermark {
-    position: absolute;
-    top: -14px;
-    right: 10px;
-    font-size: 100px;
-    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
-    color: rgba(216,185,120,0.06);
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .staff {
-    position: relative;
-    width: 100%;
-    height: 120px;
-    border-radius: 14px;
-    padding: 0 20px 0 74px;
-    display: flex;
-    align-items: center;
-    background-image: linear-gradient(
-      to bottom,
-      var(--staff) 0, var(--staff) 1.5px, transparent 1.5px, transparent 16px,
-      var(--staff) 16px, var(--staff) 17.5px, transparent 17.5px, transparent 32px,
-      var(--staff) 32px, var(--staff) 33.5px, transparent 33.5px, transparent 48px,
-      var(--staff) 48px, var(--staff) 49.5px, transparent 49.5px, transparent 64px,
-      var(--staff) 64px, var(--staff) 65.5px, transparent 65.5px, transparent 66px
-    );
-    background-size: 100% 66px;
-    background-repeat: no-repeat;
-    background-position: left 28px;
-  }
-
-  .clef {
-    position: absolute;
-    left: 4px;
-    top: 4px;
-    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
-    font-size: 92px;
-    line-height: 1.15;
-    color: var(--gold);
-    user-select: none;
-  }
-
-  .reel-value {
-    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
-    font-size: clamp(20px, 4.2vw, 26px);
-    font-weight: 600;
-    color: var(--ink);
-    text-align: center;
-    width: 100%;
-    transition: opacity 0.05s;
-  }
-
-  .reel-value.placeholder {
-    color: var(--muted);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 500;
-    font-size: 15px;
-  }
-
-  .reel-value.settled {
-    color: var(--gold);
-    text-shadow: 0 0 18px rgba(216,185,120,0.35);
-    animation: pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  @keyframes pop {
-    0% { transform: scale(0.92); opacity: 0.6; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .reel-value.settled { animation: none; }
-  }
-
-  button#drawBtn {
-    width: 100%;
-    margin-top: 22px;
-    border: none;
-    border-radius: 999px;
-    padding: 16px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 0.02em;
-    background: linear-gradient(120deg, var(--gold), var(--gold-deep));
-    color: #241A08;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-    transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
-    box-shadow: 0 12px 24px -10px rgba(184,147,74,0.55);
-  }
-
-  button#drawBtn:hover:not(:disabled) {
-    filter: brightness(1.06);
-    transform: translateY(-2px);
-  }
-
-  button#drawBtn:active:not(:disabled) { transform: scale(0.97); }
-
-  button#drawBtn:disabled { opacity: 0.5; cursor: default; }
-
-  .footer-row {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 7px;
-    margin-top: 12px;
-    font-size: 12.5px;
-    color: var(--muted);
-  }
-
-  .footer-row #statusLabel:not(:empty)::before {
-    content: "";
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--gold);
-    margin-right: 7px;
-    vertical-align: middle;
-  }
-
-  #excludeToggle { display: none; }
-
-  textarea {
-    width: 100%;
-    min-height: 200px;
-    resize: vertical;
-    border-radius: 10px;
-    padding: 14px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  }
+/* ---- Stage card ---- */
+.panel { position: relative; }
+.panel.editor { display: none; }
+.panel.stage {
+  background: linear-gradient(165deg, var(--card-2), var(--card) 60%);
+  border: 1px solid rgba(216,185,120,0.16);
+  border-radius: 22px;
+  padding: 28px 24px 24px;
+  box-shadow: 0 30px 60px -32px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.clef-watermark {
+  position: absolute;
+  top: -14px;
+  right: 10px;
+  font-size: 100px;
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
+  color: rgba(216,185,120,0.06);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.staff {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  border-radius: 14px;
+  padding: 0 20px 0 74px;
+  display: flex;
+  align-items: center;
+  background-image: linear-gradient(
+    to bottom,
+    var(--staff) 0, var(--staff) 1.5px, transparent 1.5px, transparent 16px,
+    var(--staff) 16px, var(--staff) 17.5px, transparent 17.5px, transparent 32px,
+    var(--staff) 32px, var(--staff) 33.5px, transparent 33.5px, transparent 48px,
+    var(--staff) 48px, var(--staff) 49.5px, transparent 49.5px, transparent 64px,
+    var(--staff) 64px, var(--staff) 65.5px, transparent 65.5px, transparent 66px
+  );
+  background-size: 100% 66px;
+  background-repeat: no-repeat;
+  background-position: left 28px;
+}
+.clef {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
+  font-size: 92px;
+  line-height: 1.15;
+  color: var(--gold);
+  user-select: none;
+}
+.reel-value {
+  font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Noto Serif', serif;
+  font-size: clamp(20px, 4.2vw, 26px);
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  width: 100%;
+  transition: opacity 0.05s;
+}
+.reel-value.placeholder {
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+}
+.reel-value.settled {
+  color: var(--gold);
+  text-shadow: 0 0 18px rgba(216,185,120,0.35);
+  animation: pop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes pop {
+  0% { transform: scale(0.92); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reel-value.settled { animation: none; }
+}
+button#drawBtn {
+  width: 100%;
+  margin-top: 22px;
+  border: none;
+  border-radius: 999px;
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.02em;
+  background: linear-gradient(120deg, var(--gold), var(--gold-deep));
+  color: #241A08;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 12px 24px -10px rgba(184,147,74,0.55);
+}
+button#drawBtn:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+}
+button#drawBtn:active:not(:disabled) { transform: scale(0.97); }
+button#drawBtn:disabled { opacity: 0.5; cursor: default; }
+.footer-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.footer-row #statusLabel:not(:empty)::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-right: 7px;
+  vertical-align: middle;
+}
+#excludeToggle { display: none; }
+textarea {
+  width: 100%;
+  min-height: 200px;
+  resize: vertical;
+  border-radius: 10px;
+  padding: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-
   <div class="hero">
     <span class="trail" style="left:50%; top:2%; font-size:19px; color:#D8B978; transform: translateX(-50%);">&#119070;</span>
     <span class="trail" style="left:36%; top:8%; font-size:13px; color:#E8C68A;">&#9834;</span>
@@ -286,7 +256,6 @@
     <span class="trail" style="left:76%; top:13%; font-size:12px; color:#8FB6C9;">&#9834;</span>
     <span class="trail" style="left:14%; top:17%; font-size:11px; color:#B98CFF;">&#9834;</span>
     <span class="trail" style="left:86%; top:17%; font-size:11px; color:#6BA8C9;">&#9835;</span>
-
     <div class="keyboard-arch">
       <div class="wkey" style="transform: translateY(0px) rotate(6deg);"></div>
       <div class="wkey" style="transform: translateY(-5px) rotate(5deg);"></div>
@@ -302,7 +271,6 @@
       <div class="wkey" style="transform: translateY(-8px) rotate(-4deg);"></div>
       <div class="wkey" style="transform: translateY(-5px) rotate(-5deg);"></div>
       <div class="wkey" style="transform: translateY(0px) rotate(-6deg);"></div>
-
       <div class="bkey" style="left:5.0%; transform: translateY(-3px) rotate(6deg);"></div>
       <div class="bkey" style="left:12.2%; transform: translateY(-7px) rotate(5deg);"></div>
       <div class="bkey" style="left:26.5%; transform: translateY(-13px) rotate(3deg);"></div>
@@ -440,67 +408,64 @@ es-Moll harmonisch ⬇️</textarea>
 </div>
 
 <script>
-  const itemsInput = document.getElementById('itemsInput');
-  const countLabel = document.getElementById('countLabel');
-  const drawBtn = document.getElementById('drawBtn');
-  const reelValue = document.getElementById('reelValue');
-  const statusLabel = document.getElementById('statusLabel');
-  const excludeToggle = document.getElementById('excludeToggle');
+const itemsInput = document.getElementById('itemsInput');
+const countLabel = document.getElementById('countLabel');
+const drawBtn = document.getElementById('drawBtn');
+const reelValue = document.getElementById('reelValue');
+const statusLabel = document.getElementById('statusLabel');
+const excludeToggle = document.getElementById('excludeToggle');
 
-  let excludeMode = true;
-  let drawnSet = new Set();
-  let isDrawing = false;
+let excludeMode = true;
+let drawnSet = new Set();
 
-  function getItems() {
-    return itemsInput.value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+function getItems() {
+  return itemsInput.value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+}
+
+function refreshCount() {
+  const items = getItems();
+  const n = items.length;
+  countLabel.textContent = n === 1 ? '1 Eintrag' : n + ' Einträge';
+  drawBtn.disabled = n === 0;
+  const itemSet = new Set(items);
+  for (const d of drawnSet) { if (!itemSet.has(d)) drawnSet.delete(d); }
+  updateStatus();
+}
+
+function updateStatus() {
+  if (!excludeMode) { statusLabel.textContent = ''; return; }
+  const items = getItems();
+  const remaining = items.filter(i => !drawnSet.has(i)).length;
+  statusLabel.textContent = remaining + ' von ' + items.length + ' verbleibend';
+}
+
+itemsInput.addEventListener('input', refreshCount);
+
+// Ein Klick = sofort die endgültige Tonleiter anzeigen, ganz ohne Verzögerung oder Zwischenschritte.
+function draw() {
+  const allItems = getItems();
+  if (allItems.length === 0) return;
+
+  let pool = allItems;
+  if (excludeMode) {
+    pool = allItems.filter(i => !drawnSet.has(i));
+    if (pool.length === 0) { drawnSet.clear(); pool = allItems; }
   }
 
-  function refreshCount() {
-    const items = getItems();
-    const n = items.length;
-    countLabel.textContent = n === 1 ? '1 Eintrag' : n + ' Einträge';
-    drawBtn.disabled = n === 0 || isDrawing;
-    const itemSet = new Set(items);
-    for (const d of drawnSet) { if (!itemSet.has(d)) drawnSet.delete(d); }
-    updateStatus();
-  }
+  const finalChoice = pool[Math.floor(Math.random() * pool.length)];
 
-  function updateStatus() {
-    if (!excludeMode) { statusLabel.textContent = ''; return; }
-    const items = getItems();
-    const remaining = items.filter(i => !drawnSet.has(i)).length;
-    statusLabel.textContent = remaining + ' von ' + items.length + ' verbleibend';
-  }
+  reelValue.classList.remove('placeholder', 'settled');
+  reelValue.textContent = finalChoice;
+  // Reflow erzwingen, damit die "Pop"-Animation bei jedem Klick sauber neu startet
+  void reelValue.offsetWidth;
+  reelValue.classList.add('settled');
 
-  itemsInput.addEventListener('input', refreshCount);
+  if (excludeMode) drawnSet.add(finalChoice);
+  updateStatus();
+}
 
-  function draw() {
-    const allItems = getItems();
-    if (allItems.length === 0 || isDrawing) return;
-    let pool = allItems;
-    if (excludeMode) {
-      pool = allItems.filter(i => !drawnSet.has(i));
-      if (pool.length === 0) { drawnSet.clear(); pool = allItems; }
-    }
-    isDrawing = true;
-    drawBtn.disabled = true;
-    reelValue.classList.remove('placeholder', 'settled');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const finalChoice = pool[Math.floor(Math.random() * pool.length)];
-    settle(finalChoice, allItems);return;
-  } 
-   
-  function settle(choice, allItems) {
-    reelValue.textContent = choice;
-    reelValue.classList.add('settled');
-    if (excludeMode) drawnSet.add(choice);
-    isDrawing = false;
-    drawBtn.disabled = allItems.length === 0;
-    updateStatus();
-  }
-
-  drawBtn.addEventListener('click', draw);
-  refreshCount();
+drawBtn.addEventListener('click', draw);
+refreshCount();
 </script>
 </body>
 </html>
