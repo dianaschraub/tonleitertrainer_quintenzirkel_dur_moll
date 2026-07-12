@@ -487,22 +487,8 @@ es-Moll harmonisch ⬇️</textarea>
     reelValue.classList.remove('placeholder', 'settled');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const finalChoice = pool[Math.floor(Math.random() * pool.length)];
-    if (reduceMotion) { settle(finalChoice, allItems); return; }
-    let ticks = 0;
-    const totalTicks = 16;
-    const baseDelay = 45;
-    function tick() {
-      reelValue.textContent = pool[Math.floor(Math.random() * pool.length)];
-      ticks++;
-      if (ticks < totalTicks) {
-        setTimeout(tick, baseDelay + (ticks / totalTicks) * 120);
-      } else {
-        settle(finalChoice, allItems);
-      }
-    }
-    tick();
-  }
-
+    settle(finalChoice, alltems);return;
+   
   function settle(choice, allItems) {
     reelValue.textContent = choice;
     reelValue.classList.add('settled');
